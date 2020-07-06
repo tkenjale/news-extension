@@ -11,7 +11,7 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(data) {
                     $("#score").text('Score: ' + data['combined prob'] + '% reliable');
-                    $("#question").show()
+                    $("#question").show();
                     $(".feedback").show();
                 }
             });
@@ -25,7 +25,7 @@ $(document).ready(function() {
             data: { 'feedback': $(this).text() },
             dataType: "json",
             success: function(data) {
-                $("#question").hide()
+                $('#question').text('Thank you for submitting feedback!');
                 $(".feedback").hide();
             }
         });
