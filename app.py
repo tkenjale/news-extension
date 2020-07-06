@@ -10,7 +10,7 @@ c_model = joblib.load("../models/c_final_1_1.joblib")
 t_model = joblib.load("../models/t_final_1_1.joblib")
 lr = joblib.load("../models/lr_final_1_1.joblib")
 
-@app.route('/', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
 	url = request.form['url']
 
@@ -18,12 +18,14 @@ def predict():
 	article.download()
 	article.parse()
 
-	text = str(article.text)
-	text = regex_clean(text)
+	temp = str(article.text)
+	global text
+	text = regex_clean(temp)
 	x1 = c_model.predict_proba([text])[0][1]
 
-	title = str(article.title)
-	title = regex_clean(title)
+	temp = str(article.title)
+	global title
+	title = regex_clean(temp)
 	x2 = t_model.predict_proba([title])[0][1]
 
 	prob = lr.predict_proba([[x1, x2]])[0][1]
@@ -44,6 +46,13 @@ def predict():
 	}
 
 	return jsonify(result)
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+	feedback = request.form['feedback']
+	print(title)
+	print(feedback)
+	return jsonify({})
 
 def regex_clean(content):
 	try:
