@@ -3,6 +3,7 @@ from sklearn.externals import joblib
 import numpy as np
 import re
 from newspaper import Article
+import json
 
 app = Flask(__name__)
 
@@ -50,8 +51,23 @@ def predict():
 @app.route('/feedback', methods=['POST'])
 def feedback():
 	feedback = request.form['feedback']
-	print(title)
-	print(feedback)
+
+	with open('feedback/feedback.json') as json_file: 
+		data = json.load(json_file) 
+
+		obj = {
+			'title' : title,
+			'content' : text
+		}
+
+		if (feedback == 'Yes'):
+			data['correct'].append(obj)
+		else:
+			data['incorrect'].append(obj)
+
+	with open('feedback/feedback.json', 'w') as f:
+		json.dump(data, f, indent=4)
+
 	return jsonify({})
 
 def regex_clean(content):
