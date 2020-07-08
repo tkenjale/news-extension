@@ -4,17 +4,22 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="../css/styles.css">
     <title>Fake News</title>
 </head>
 
 <body>
-    <h1>How Reliable is this Article?</h1>
-    <button type="button" id="checkPage">Check</button>
-    <p id="score">Score:</p>
-
-    <p hidden id="question">Was this article actually reliable?</p>
-    <button hidden type="button" class="feedback yes">Yes</button>
-    <button hidden type="button" class="feedback no">No</button>
+    <h1>Checc News</h1>
+    <h3 id="instructions">Click the button to predict how reliable a news article is</h3>
+    <div class="score_div">
+        <button type="button" id="checkPage">Checc</button>
+        <p hidden id="score">Score:</p>
+    </div>
+    <div class="feedback_div">
+        <p hidden id="question">Was this article actually reliable?</p>
+        <button hidden type="button" class="feedback yes">Yes</button>
+        <button hidden type="button" class="feedback no">No</button>
+    </div>
 </body>
 
 </html>
