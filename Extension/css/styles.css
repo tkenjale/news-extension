@@ -1,0 +1,6 @@
+body {
+    min-width: 200px;
+    min-height: 120px;
+    max-height: 250px;
+    text-align: center;
+}
