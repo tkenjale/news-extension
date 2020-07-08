@@ -13,6 +13,7 @@ lr = joblib.load("../models/lr_final_1_1.joblib")
 
 @app.route('/predict', methods=['POST'])
 def predict():
+	global url
 	url = request.form['url']
 
 	article = Article(url)
@@ -56,6 +57,7 @@ def feedback():
 		data = json.load(json_file) 
 
 		obj = {
+			'url' : url,
 			'title' : title,
 			'content' : text
 		}
