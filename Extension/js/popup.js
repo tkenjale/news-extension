@@ -10,6 +10,9 @@ $(document).ready(function() {
                 data: { 'url': activeTabURL },
                 dataType: "json",
                 success: function(data) {
+                    $('#instructions').hide();
+                    $("#checkPage").hide();
+                    $('#score').show();
                     $("#score").text('Score: ' + data['combined prob'] + '% reliable');
                     $("#question").show();
                     $(".feedback").show();
