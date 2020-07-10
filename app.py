@@ -4,12 +4,16 @@ import numpy as np
 import re
 from newspaper import Article
 import json
+import math
 
 app = Flask(__name__)
 
-c_model = joblib.load("../models/c_final_1_1.joblib")
-t_model = joblib.load("../models/t_final_1_1.joblib")
-lr = joblib.load("../models/lr_final_1_1.joblib")
+c_model = joblib.load("../models/c_final_sgd_log_1_1.joblib")
+t_model = joblib.load("../models/t_final_mnb_1_2.joblib")
+#lr = joblib.load("../models/lr_final_1_1.joblib")
+b0 = -5.033826
+b1 = 4.008257 
+b2 = 6.149098
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -30,8 +34,9 @@ def predict():
 	title = regex_clean(temp)
 	x2 = t_model.predict_proba([title])[0][1]
 
-	prob = lr.predict_proba([[x1, x2]])[0][1]
+	#prob = lr.predict_proba([[x1, x2]])[0][1]
 	#pred = lr.predict([[x1, x2]])[0]
+	prob = (math.e ** (b0 + b1 * x1 + b2 * x2)) / (1 + (math.e ** (b0 + b1 * x1 + b2 * x2)))
 
 	rounded_prob = int(round(prob * 100))
 	#print('title:', title)
