@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<script src="../js/jquery-3.5.1.min.js"></script>
-<script src="../js/popup.js"></script>
-<html>
+<html lang="en">
 
 <head>
-    <link rel="stylesheet" href="../css/styles.css">
     <title>Fake News</title>
+    <meta charset="utf-8">
+    <!--<link rel="stylesheet" href="../css/styles.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/popup.js"></script>
 </head>
 
 <body>
-    <h1>Checc News</h1>
-    <h3 id="instructions">Click the button to predict how reliable a news article is</h3>
-    <div class="score_div">
-        <button type="button" id="checkPage">Checc</button>
-        <p hidden id="score">Score:</p>
+    <div class="jumbotron jumbotron-fluid pt-2 pb-3">
+        <div class="container text-center">
+            <h1 class="display-4 pb-2">Checc News</h1>
+            <h2 class="small pb-2" id="instructions">Click the button to predict how reliable a news article is</h2>
+        </div>
+        <div class="score_div container-fluid text-center">
+            <button type="button" class="btn btn-dark btn-block" id="checkPage">
+                <span class="spinner-border spinner-border-sm"></span>
+                Checc
+            </button>
+            <p class="small" id="score">Score:</p>
+        </div>
+        <div class="feedback_div container-fluid text-center">
+            <p class="small" id="question">Was this article actually reliable?</p>
+            <button type="button" class="feedback yes btn btn-success">Yes</button>
+            <button type="button" class="feedback no btn btn-danger">No</button>
+        </div>
     </div>
-    <div class="feedback_div">
-        <p hidden id="question">Was this article actually reliable?</p>
-        <button hidden type="button" class="feedback yes">Yes</button>
-        <button hidden type="button" class="feedback no">No</button>
-    </div>
+
 </body>
 
 </html>
