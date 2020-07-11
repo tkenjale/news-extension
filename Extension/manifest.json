@@ -1,11 +1,11 @@
  {
-     "name": "Fake News Detector",
+     "name": "Checc News",
      "version": "1.0",
-     "description": "Detect Fake News",
+     "description": "Check the reliability of the news you read online",
      "permissions": ["activeTab", "http://localhost/*"],
      "manifest_version": 2,
      "background": {
-         "scripts": ["js/jquery-3.5.1.min.js", "js/background.js"],
+         "scripts": ["js/background.js"],
          "persistent": false
      },
      "content_scripts": [{
@@ -14,5 +14,6 @@
      }],
      "browser_action": {
          "default_popup": "html/popup.html"
-     }
+     },
+     "content_security_policy": "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css; object-src 'self'"
  }
