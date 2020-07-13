@@ -1,5 +1,11 @@
 $(document).ready(function() {
-    $("#checkPage").click(function() {
+    $(".score_div").hide();
+    $(".feedback_div").hide();
+
+    $("#checc").click(function() {
+        $("#checc_span").addClass("spinner-border spinner-border-sm");
+        $("#checc").prop('disabled', true);
+
         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
             var activeTab = tabs[0];
             activeTabURL = activeTab.url;
@@ -11,17 +17,16 @@ $(document).ready(function() {
                 dataType: "json",
                 success: function(data) {
                     $('#instructions').hide();
-                    $("#checkPage").hide();
-                    $('#score').show();
+                    $(".checc_div").hide();
+                    $('.score_div').show();
                     $("#score").text('Score: ' + data['combined prob'] + '% reliable');
-                    $("#question").show();
-                    $(".feedback").show();
+                    $(".feedback_div").show();
                 }
             });
         });
     });
 
-    $(".feedback").click(function() {
+    $("#yesOrNo").click(function() {
         $.ajax({
             url: 'http://127.0.0.1:5000/feedback',
             type: "POST",
@@ -29,7 +34,7 @@ $(document).ready(function() {
             dataType: "json",
             success: function(data) {
                 $('#question').text('Thank you for submitting feedback!');
-                $(".feedback").hide();
+                $(".feedback_btn").hide();
             }
         });
     });
