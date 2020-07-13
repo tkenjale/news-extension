@@ -16,17 +16,21 @@
             <h1 class="display-4 pb-2">Checc News</h1>
             <h2 class="small pb-2" id="instructions">Click the button to predict how reliable a news article is</h2>
         </div>
-        <div class="score_div container-fluid text-center">
-            <button type="button" class="btn btn-dark btn-block" id="checkPage">
-                <span class="spinner-border spinner-border-sm"></span>
+        <div class="checc_div container-fluid text-center">
+            <button type="button" class="btn btn-dark btn-block" id="checc">
+                <span id="checc_span"></span>
                 Checc
             </button>
-            <p class="small" id="score">Score:</p>
+        </div>
+        <div class="score_div container-fluid text-center">
+            <p class="small pt-3" id="score">Score:</p>
         </div>
         <div class="feedback_div container-fluid text-center">
             <p class="small" id="question">Was this article actually reliable?</p>
-            <button type="button" class="feedback yes btn btn-success">Yes</button>
-            <button type="button" class="feedback no btn btn-danger">No</button>
+            <div class="feedback_btn container-fluid">
+                <button type="button" class="yes btn btn-success" id="yesOrNo">Yes</button>
+                <button type="button" class="no btn btn-danger" id="yesOrNo">No</button>
+            </div>
         </div>
     </div>
 
