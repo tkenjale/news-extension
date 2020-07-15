@@ -1,6 +1,55 @@
 body {
     min-width: 200px;
-    min-height: 120px;
-    max-height: 250px;
+    max-width: 200px;
+    min-height: 225px;
+    max-height: 225px;
+}
+
+h1,
+h2 {
+    font-family: 'Monoton', cursive;
+}
+
+h1 {
+    color: #fff;
+    text-shadow: 0 0 5px #0000ff;
+}
+
+h2 {
+    color: red;
+    text-shadow: 0 0 3px DarkRed;
+    letter-spacing: 1px;
+}
+
+
+/*#checc {
+    font-family: 'Monoton', cursive;
+}*/
+
+.submit_btn {
+    background-color: red;
+}
+
+.submit_btn:hover {
+    background-color: red;
+}
+
+#checc_span {
+    width: 1.5rem;
+    height: 1.5rem;
+    text-shadow: 0 0 .5px #0000ff;
+}
+
+.progress-bar-title {
+    position: absolute;
     text-align: center;
+    overflow: hidden;
+    line-height: 30px;
+    right: 0;
+    left: 0;
+}
+
+.button {
+    line-height: 30px;
+    top: 0;
 }
