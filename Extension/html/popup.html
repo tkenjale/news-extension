@@ -19,12 +19,12 @@
             <h3 class="small pt-2 pb-2 font-italic" id="instructions">Click the button to predict how reliable a news article is</h3>
         </div>
         <div class="checc_div container-fluid text-center pt-2">
-            <button type="button" class="submit_btn btn btn-block text-center" id="checc" style="border-radius: 20px;">
-                <span id="checc_span" class="pt-0 pb-0" style="font-size:large;">Submit</span>
+            <button type="button" class="submit_btn btn btn-block btn-light text-center" id="checc" style="border-radius: 30px">
+                <span id="checc_span" class="pt-0 pb-0" style="font-size:large; color:black">Submit</span>
             </button>
         </div>
         <div class="score_div container-fluid text-center mt-3">
-            <div class="progress position-relative text-center" style="height: 30px">
+            <div class="progress position-relative text-center" style="height: 30px; border-radius: 30px">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" data-transitiongoal="75"></div>
                 <p class="progress-bar-title text-dark font-italic font-weight-bold"></p>
             </div>
@@ -32,10 +32,11 @@
         </div>
         <div class="feedback_div container-fluid text-center mt-3">
             <p class="small" id="question">Is this article actually reliable?</p>
-            <div class="feedback_btn container-fluid mt-1 mb-0">
-                <button type="button" class="yesOrNo btn btn-sm btn-success mt-0" id="yesOrNo">Yes</button>
-                <button type="button" class="yesOrNo btn btn-sm btn-danger mt-0" id="yesOrNo">No</button>
+            <div class="feedback_btn container-fluid mt-n1 mb-0">
+                <button type="button" class="yesOrNo btn btn-sm btn-success mt-0 " id="yesOrNo" style="border-radius: 30px">Yes</button>
+                <button type="button" class="yesOrNo btn btn-sm btn-danger mt-0" id="yesOrNo" style="border-radius: 30px">No</button>
             </div>
+            <p class="small mt-2 pt-4" id="thanks">Thanks for the feedback!</p>
         </div>
     </div>
 </body>
