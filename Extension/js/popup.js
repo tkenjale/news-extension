@@ -1,10 +1,11 @@
 $(document).ready(function() {
+    $("#thanks").hide();
     $(".score_div").hide();
     $(".feedback_div").hide();
     $(".jumbotron").css("height", "225px");
 
     $("#checc").click(function() {
-        $("#checc_span").addClass("spinner-border text-info");
+        $("#checc_span").addClass("spinner-border text-light");
         $("#checc_span").text("");
         $("#checc").prop('disabled', true);
 
@@ -32,19 +33,11 @@ $(document).ready(function() {
                     }
 
                     $(".progress-bar").animate({ width: prob + '%' }, "slow").delay(600).promise().done(function() {
-                        $(".progress-bar-title").text(prob + '% Reliable').delay(600).promise().done(function() {
+                        $(".progress-bar-title").text(prob + '% Reliable').delay(400).promise().done(function() {
                             $(".feedback_div").fadeIn(1500);
                         });
 
                     });
-
-
-                    //$(".progress-bar").animate({ width: prob + '%' }, "slow", function() {
-                    //    $(".progress-bar-title").text($(".progress-bar").css("width") + '% reliable');
-                    //});
-
-                    //$("#score").text(prob + '% reliable');
-
                 }
             });
         });
@@ -57,8 +50,10 @@ $(document).ready(function() {
             data: { 'feedback': $(this).text() },
             dataType: "json",
             success: function(data) {
-                $('#question').text('Thanks for the feedback!');
-                $(".feedback_btn").fadeOut("slow");
+                $('#question').fadeOut("slow");
+                $(".feedback_btn").fadeOut("slow").promise().done(function() {
+                    $("#thanks").fadeIn("slow");
+                });
             }
         });
     });
