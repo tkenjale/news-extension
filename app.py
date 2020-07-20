@@ -8,22 +8,29 @@ import math
 
 app = Flask(__name__)
 
-c_model = joblib.load("../models/c_final_sgd_log_1_1.joblib")
-t_model = joblib.load("../models/t_final_mnb_1_2.joblib")
+c_model = joblib.load("models/c_final_sgd_log_1_1.joblib")
+t_model = joblib.load("models/t_final_mnb_1_2.joblib")
 #lr = joblib.load("../models/lr_final_1_1.joblib")
-b0 = -9.014039
-b1 = 9.216583
-b2 = 8.357201 
-b3 = 1.225864
+b0 = -9.2371880
+b1 = 9.3777393
+b2 = 8.6144912 
+b3 = 0.9323086
 
 @app.route('/predict', methods=['POST'])
 def predict():
 	global url
 	url = request.form['url']
-
-	article = Article(url)
-	article.download()
-	article.parse()
+	
+	try:
+		article = Article(url)
+		article.download()
+		article.parse()
+	except:
+		return jsonify({
+			'content prob' : "error",
+			'title prob' : "error",
+			'combined prob': "error"
+		})
 
 	temp = str(article.title)
 	global title
@@ -59,7 +66,7 @@ def predict():
 def feedback():
 	feedback = request.form['feedback']
 
-	with open('feedback/feedback.json') as json_file: 
+	with open('../feedback/feedback.json') as json_file: 
 		data = json.load(json_file) 
 
 		obj = {
@@ -73,7 +80,7 @@ def feedback():
 		else:
 			data['incorrect'].append(obj)
 
-	with open('feedback/feedback.json', 'w') as f:
+	with open('../feedback/feedback.json', 'w') as f:
 		json.dump(data, f, indent=4)
 
 	return jsonify({})
