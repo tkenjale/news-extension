@@ -2,6 +2,7 @@ $(document).ready(function() {
     $("#thanks").hide();
     $(".score_div").hide();
     $(".feedback_div").hide();
+    $(".unsupported_div").hide();
     $(".jumbotron").css("height", "225px");
 
     $("#checc").click(function() {
@@ -21,23 +22,29 @@ $(document).ready(function() {
                 success: function(data) {
                     $('#instructions').hide();
                     $(".checc_div").hide();
-                    $('.score_div').fadeIn("slow");
 
-                    var prob = parseFloat(data['combined prob']);
-                    if (prob >= 70) {
-                        $(".progress-bar").addClass("bg-success");
-                    } else if (prob >= 40) {
-                        $(".progress-bar").addClass("bg-warning");
+                    if (data['combined prob'] == "error") {
+                        $(".unsupported_div").fadeIn("slow");
                     } else {
-                        $(".progress-bar").addClass("bg-danger");
-                    }
+                        $('.score_div').fadeIn("slow");
 
-                    $(".progress-bar").animate({ width: prob + '%' }, "slow").delay(600).promise().done(function() {
-                        $(".progress-bar-title").text(prob + '% Reliable').delay(400).promise().done(function() {
-                            $(".feedback_div").fadeIn(1500);
+                        var prob = parseFloat(data['combined prob']);
+
+                        if (prob >= 70) {
+                            $(".progress-bar").addClass("bg-success");
+                        } else if (prob >= 40) {
+                            $(".progress-bar").addClass("bg-warning");
+                        } else {
+                            $(".progress-bar").addClass("bg-danger");
+                        }
+
+                        $(".progress-bar").animate({ width: prob + '%' }, "slow").delay(600).promise().done(function() {
+                            $(".progress-bar-title").text(prob + '% Reliable').delay(400).promise().done(function() {
+                                $(".feedback_div").fadeIn(1500);
+                            });
+
                         });
-
-                    });
+                    }
                 }
             });
         });
