@@ -21,17 +21,15 @@ h2 {
     letter-spacing: 1px;
 }
 
-
-/*#checc {
-    font-family: 'Monoton', cursive;
-}*/
-
-.submit_btn {
-    background-color: red;
-}
-
-.submit_btn:hover {
-    background-color: red;
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:active,
+.btn-light.active,
+.open>.dropdown-toggle.btn-light {
+    /* color: #fff !important; */
+    background-color: lightsteelblue !important;
+    border-color: lightsteelblue !important;
+    /*set the color you want here*/
 }
 
 #checc_span {
