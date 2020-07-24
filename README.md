@@ -5,23 +5,23 @@
 In this fun project, I trained Machine Learning models to classify news articles as either reliable or unreliable. I used the following labeled news article datasets:
 - https://www.kaggle.com/pontes/fake-news-sample
 - https://www.kaggle.com/clmentbisaillon/fake-and-real-news-dataset/
-I used **Python** to clean the datasets and train the models. To import and manipulate the data, I used the **Pandas** library
-
-![extension](img/checc_success.jpg)
 
 
-![extension](img/checc_fail.jpg)
+### Data Preprocessing
+I used **Python** to clean the datasets and train the models. To import and manipulate the data, I used the **Pandas** library. I chose the following columns to keep: title, content, type (reliable/unreliable). I cleaned the text data using **Regular Expressions**. The datasets had strong class bias because there was significantly more news articles that were classified as unreliable than reliable. I removed the class bias by randomly sampling the set of unreliable articles so that the number of reliable and unreliable articles were equal. I applied **one-hot encoding** to type to convert reliable to 1 and unreliable to 0. 
 
-
+### Model Building and Training
+#### Content Model
 ![extension](img/content_pipeline.jpg)
+First, I built a model to predict reliability based on news article content. I used the **sci-kit learn** library to convert the texts into **tf-idf vectors** and build a SGDClassifier with log loss and an alpha of 1e-6, which is a logistic regression model using Stochastic Gradient Descent learning. After trying different models and tuning various hyperparameters, I found this model to have the best results in my testing. 
 
-
+##### Content Model Accuracy Measures
 ![extension](img/content_results.jpg)
 
-
+#### Title Model
 ![extension](img/title_pipeline.jpg)
 
-
+##### Title Model Accuracy Measures
 ![extension](img/title_results.jpg)
 
 
@@ -29,3 +29,9 @@ I used **Python** to clean the datasets and train the models. To import and mani
 
 
 ![extension](img/combined_results.jpg)
+
+
+![extension](img/checc_success.jpg)
+
+
+![extension](img/checc_fail.jpg)
