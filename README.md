@@ -42,12 +42,26 @@ Average f1-score of **95%**
 
 ### Chrome Extension
 
-I used the **Flask** Python library to build the back end of the Chrome Extension because this was the easiest way to integrate **sci-kit learn** models into the application. The **Flask** app creates a localhost server, and the Chrome Extension uses **POST requests** to exchange data with the server. The front end of the Chrome Extension uses **HTML5**, **CSS3**, and **Javascript**. I also used the **Bootstrap 4** CSS framework and the **jQuery** Javascript library. 
+I used the **Flask** Python library to build the back end of the Chrome Extension because this was the easiest way to integrate **sci-kit learn** models into the application. The **Flask** app creates a localhost server, and the Chrome Extension uses **POST Requests** to exchange data with the server. The front end of the Chrome Extension uses **HTML5**, **CSS3**, and **Javascript**. I also used the **Bootstrap 4** CSS framework and the **jQuery** Javascript library. 
 
-The user navigates to a news article, opens the Chrome Extension, and then clicks the *Submit* button. The extension then uses **jQuery** to send a **POST request** with the URL of the article to the **Flask** server. The **Flask** script recieves the URL, and uses the **newspaper** Python library to extract the title and content on the article. The script then feeds the title and content through the **title model** and **content model** respectively. The outputs of each model are fed to the **combined model**, and a probability of the article being reliable is outputted. This probability is returned to the Chrome Extension in the **POST request**. The extension then displays the probability.
+The user navigates to a news article, opens the Chrome Extension, and then clicks the *Submit* button. The extension then uses **jQuery** to send a **POST Request** with the URL of the article to the **Flask** server. The **Flask** script recieves the URL, and uses the **newspaper** Python library to extract the title and content on the article. The script then feeds the title and content through the **title model** and **content model** respectively. The outputs of each model are fed to the **combined model**, and a probability of the article being reliable is outputted. This probability is returned to the Chrome Extension in the **POST Request**. The extension then displays the probability.
 
 #### Reliable Article Output
 ![extension](img/checc_success.jpg)
 
 #### Unreliable Article Output
 ![extension](img/checc_fail.jpg)
+
+#### Unsupported Article Output
+
+If the user clicks *Submit* when on a webpage that is not an article or on a webpage on which the **newspaper** library cannot extract text from the URL, the following error message is displayed:
+
+![extension](img/checc_error.jpg)
+
+#### Model Feedback
+
+![extension](img/checc_feedback.jpg)
+
+To account for incorrect article reliability predictions, I included a report feature. As you can see above, after the user receives the probability, they can report if the article was actually reliable or not. When the user clicks *Yes* or *No*, a **POST Request** is sends the feedback value to the **Flask Server**. The server stores the URL, title, and content of the article in a **JSON** file. *Correct* and *Incorrect* data values are stored separately. This data could be uses in the future to further improve the models. 
+
+![extension](img/feedback.jpg)
