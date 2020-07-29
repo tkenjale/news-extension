@@ -1,0 +1,17 @@
+{
+    "name": "Checc News",
+    "version": "2.0",
+    "description": "Check the reliability of the news you read online",
+    "permissions": ["activeTab", "http://localhost/*"],
+    "manifest_version": 2,
+    "browser_action": {
+        "default_popup": "index.html",
+        "default_icon": {
+            "16": "icon-16.png",
+            "32": "icon-32.png",
+            "48": "icon-48.png",
+            "128": "icon-128.png"
+        }
+    },
+    "content_security_policy": "script-src 'self' https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css 'sha256-CthZpQOXF/phHBzxvnC+6878/zTgSWkSdyNlKA/Hqz8='; object-src 'self'"
+}
