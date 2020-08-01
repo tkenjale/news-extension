@@ -23,12 +23,12 @@ $(document).ready(function() {
                     $('#instructions').hide();
                     $(".checc_div").hide();
 
-                    if (data['combined prob'] == "error") {
+                    if (data['combined_prob'] == "error") {
                         $(".unsupported_div").fadeIn("slow");
                     } else {
                         $('.score_div').fadeIn("slow");
 
-                        var prob = parseFloat(data['combined prob']);
+                        var prob = parseFloat(data['combined_prob']);
 
                         if (prob >= 70) {
                             $(".progress-bar").addClass("bg-success");
