@@ -17,7 +17,7 @@ const Checc = (props) => {
   return (
     <div className="checc_div container-fluid text-center pt-2">
       <button type="button" className="submit_btn btn btn-block btn-light text-center" id="checc" style={{borderRadius: 30}} onClick={props.handler}>
-        <span id="checc_span" className="pt-0 pb-0" style={{fontSize: "large", color: "black"}}>Submit</span>
+        <span id="checc_span" className={props.span_class} style={{fontSize: "large", color: "black"}}>{props.text}</span>
       </button>
     </div>
   );
@@ -37,7 +37,7 @@ const Score = (props) => {
 const Error = () => {
   return (
     <div className="unsupported_div container-fluid text-center mt-5 pt-1">
-        <span className="badge badge-danger">This site is not supported</span>
+      <span className="badge badge-danger">This site is not supported</span>
     </div>
   );
 }
@@ -47,8 +47,8 @@ const Feedback = (props) => {
     <div className="feedback_div container-fluid text-center mt-3">
       <p className="small" id="question">Is this article actually reliable?</p>
       <div className="feedback_btn container-fluid mt-n1 mb-0">
-          <button type="button" className="yesOrNo btn btn-sm btn-success mt-0 mr-1" id="yesOrNo" style={{borderRadius: 30}} onClick={props.handleYes}>Yes</button>
-          <button type="button" className="yesOrNo btn btn-sm btn-danger mt-0 ml-1" id="yesOrNo" style={{borderRadius: 30}} onClick={props.handleNo}>No</button>
+        <button type="button" className="yesOrNo btn btn-sm btn-success mt-0 mr-1" id="yesOrNo" style={{borderRadius: 30}} onClick={props.handleYes}>Yes</button>
+        <button type="button" className="yesOrNo btn btn-sm btn-danger mt-0 ml-1" id="yesOrNo" style={{borderRadius: 30}} onClick={props.handleNo}>No</button>
       </div>
     </div>
   );
@@ -63,7 +63,8 @@ class App extends React.Component {
       url: "",
       checc_click: false,
       feedback_click: false,
-      error: false
+      error: false,
+      loading: false
     }
 
     this.handleCheccClick = this.handleCheccClick.bind(this);
@@ -73,50 +74,81 @@ class App extends React.Component {
 
   handleCheccClick() {
     
+    this.setState({ loading: true });
+
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
       this.setState({ url: tabs[0].url });     
 
-      // axios.post('http://127.0.0.1:5000/predict', {url : this.state.url}, {'Content-Type': 'application/json'})
-      //   .then(res => {
+      axios.post('http://127.0.0.1:5000/predict', {url : this.state.url}, {'Content-Type': 'application/json'})
+        .then(res => {
 
-      //     this.setState({ 
-      //       data: res.data ,
-      //       checc_click: true
-      //     });
+          this.setState({ 
+            data: res.data ,
+            checc_click: true
+          });
 
-      //   }).catch(error => {
-      //     if (error.response) {
-      //       console.log("error received");
-      //       this.setState({ 
-      //         error: true ,
-      //         checc_click: true
-      //       });
-      //     }
-      //   });
+        }).catch(error => {
+          if (error.response) {
+            console.log("error received");
+            this.setState({ 
+              error: true ,
+              checc_click: true
+            });
+          }
+        });
 
-      this.setState({
-        data: {combined_prob : 75},
-        checc_click: true
-      });
+      // this.setState({
+      //   data: {combined_prob : 75},
+      //   checc_click: true
+      // });
     });
   }
 
   handleYes() {
-    this.setState({ feedback_click: true });
+    axios.put('http://127.0.0.1:5000/feedback', 
+      {feedback: "yes", url: this.state.url, title: this.state.data.title, content: this.state.data.content}, 
+      {'Content-Type': 'application/json'})
+        .then((res) => {
+          console.log(res.data);
+          this.setState({ feedback_click: true });
+        }).catch(error => {
+          if (error.response) {
+            console.log("error received");
+          }
+        });
   }
 
   handleNo() {
-    this.setState({ feedback_click: true });
+    axios.put('http://127.0.0.1:5000/feedback', 
+      {feedback: "no", url: this.state.url, title: this.state.data.title, content: this.state.data.content}, 
+      {'Content-Type': 'application/json'})
+        .then((res) => {
+          console.log(res.data);
+          this.setState({ feedback_click: true });
+        }).catch(error => {
+          if (error.response) {
+            console.log("error received");
+          }
+        });
   }
 
   render() {
     if (!this.state.checc_click && !this.state.feedback_click) {
+
+      let span_class = "pt-0 pb-0";
+      let text = "Submit"
+
+      if (this.state.loading) {
+        span_class += " spinner-border text-light";
+        text = "";
+      }
+
       return (
         <div>
           <Header />
           <h3 className="small pt-2 pb-2 font-italic text-center" id="instructions">Click the button to predict how reliable a news article is</h3>
-          <Checc handler={this.handleCheccClick} />
+          <Checc handler={this.handleCheccClick} span_class={span_class} text={text} />
         </div>
       );
     } 
