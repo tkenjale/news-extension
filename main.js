@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -36,6 +37,39 @@ app.post('/predict', (req, res) => {
         }
 
     });
+});
+
+app.put('/feedback', (req, res) => {
+    fs.readFile('feedback/feedback.json', 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("Read error");
+        } else {
+            let obj = JSON.parse(data);
+            let toSend = {
+                url: req.body.url,
+                title: req.body.title,
+                content: req.body.content
+            };
+
+            if (req.body.feedback === 'yes') {
+                obj.correct.push(toSend);
+            } else {
+                obj.incorrect.push(toSend);
+            }
+
+            json = JSON.stringify(obj);
+            fs.writeFile('feedback/feedback.json', json, 'utf8', (err) => {
+                if (err) {
+                    console.error("Write error");
+                    return res.status(500).send("Write error");
+                } else {
+                    return res.send("Received feedback");
+                }
+            });
+        }
+    });
+
 });
 
 let server = app.listen(5000, () => {
