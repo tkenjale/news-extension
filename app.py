@@ -5,8 +5,11 @@ import re
 from newspaper import Article
 import json
 import math
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 c_model = joblib.load("models/c_final_sgd_log_1_1.joblib")
 t_model = joblib.load("models/t_final_mnb_1_2.joblib")
@@ -16,7 +19,7 @@ b1 = 9.3777393
 b2 = 8.6144912 
 b3 = 0.9323086
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
 	global url
 	url = request.form['url']
@@ -27,19 +30,21 @@ def predict():
 		article.parse()
 	except:
 		return jsonify({
-			'content prob' : "error",
-			'title prob' : "error",
-			'combined prob': "error"
+			'title' : "error",
+			'content' : 'error',
+			'content_prob' : "error",
+			'title_prob' : "error",
+			'combined_prob': "error"
 		})
 
-	temp = str(article.title)
+	title_raw = str(article.title)
 	global title
-	title = regex_clean(temp)
+	title = regex_clean(title_raw)
 	x1 = t_model.predict_proba([title])[0][1]
 
-	temp = str(article.text)
+	text_raw = str(article.text)
 	global text
-	text = regex_clean(temp)
+	text = regex_clean(text_raw)
 	x2 = c_model.predict_proba([text])[0][1]
 
 	#prob = lr.predict_proba([[x1, x2]])[0][1]
@@ -55,14 +60,16 @@ def predict():
 	print('combined prob:', prob)
 
 	result = {
-		'content prob' : x1,
-		'title prob' : x2,
-		'combined prob': rounded_prob
+		'title' : title,
+		'content' : text,
+		'content_prob' : x1,
+		'title_prob' : x2,
+		'combined_prob': rounded_prob
 	}
 
 	return jsonify(result)
 
-@app.route('/feedback', methods=['POST'])
+@app.route('/feedback', methods=['POST', 'OPTIONS'])
 def feedback():
 	feedback = request.form['feedback']
 
