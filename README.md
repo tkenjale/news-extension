@@ -42,26 +42,36 @@ Average f1-score of **95%**
 
 ### Chrome Extension
 
-I used the **Flask** Python library to build the back end of the Chrome Extension because this was the easiest way to integrate **sci-kit learn** models into the application. The **Flask** app creates a localhost server, and the Chrome Extension uses **POST Requests** to exchange data with the server. The front end of the Chrome Extension uses **HTML5**, **CSS3**, and **Javascript**. I also used the **Bootstrap 4** CSS framework and the **jQuery** Javascript library. 
+I built two versions of the Chrome Extension, both of which have th exact same functionaity. Version 1 uses **jQuery** for the front-end and **Flask** for the back-end. Version 2 uses **ReactJS** for the front-end and **Node.js** for the back-end.
 
-The user navigates to a news article, opens the Chrome Extension, and then clicks the *Submit* button. The extension then uses **jQuery** to send a **POST Request** with the URL of the article to the **Flask** server. The **Flask** script recieves the URL, and uses the **newspaper** Python library to extract the title and content on the article. The script then feeds the title and content through the **title model** and **content model** respectively. The outputs of each model are fed to the **combined model**, and a probability of the article being reliable is outputted. This probability is returned to the Chrome Extension in the **POST Request**. The extension then displays the probability.
+#### Version 1
 
-#### Reliable Article Output
+For the back-end, I used the **Flask** Python library to build a **REST API**  because this was the easiest way to integrate **sci-kit learn** models into the application. The **Flask** app creates a localhost server, and the Chrome Extension uses **POST** and **PUT** requests to exchange data with the server. The front-end of the Chrome Extension uses **HTML5**, **CSS3**, and **Javascript**. I also used the **Bootstrap 4** CSS framework and the **jQuery** Javascript library for easy styling, animations, and logic.
+
+#### Version 2
+
+For the back-end, I used **Node.js** with the **Express.js** framework to build a **REST API**. The script performs the same functionality as the the **Flask** server. The front-end is built with **React**, as well as **Bootstrap 4** and **HTML5**. **React** allowed for better structure and state management for my Chrome Extension. I wanted to try **React** because I had never used it before, and while certainly more difficult than **jQuery**, I found it was a much more organized and clean way to build the front-end of a website. 
+
+#### Functionality
+
+The user navigates to a news article, opens the Chrome Extension, and then clicks the *Submit* button. The extension then uses **jQuery AJAX**(Version 1) or **Axios** to send a **POST Request** with the URL of the article to the **Flask**/**Node** server. The **Flask**/**Node** script recieves the URL. The **Flask** script uses the **newspaper** Python library to extract the title and content on the article. The script then feeds the title and content through the **title model** and **content model** respectively. The outputs of each model are fed to the **combined model**, and a probability of the article being reliable is outputted. This probability is returned to the Chrome Extension in the **POST Request**. The extension then displays the probability. The **Node** script cannot directly used Python libraries to achieve much of what the **Flask** script can, so it calls a separate Python script using a child process. It sends the URL to the Python script, the script uses the **newspaper** library to extract article title and content, it runs those through the **sci-kit learn** models, and returns the results to the **Node** script, which sends the result to the **React** application. Using a child process is NOT an ideal or good solution to this problem because the **sci-kit learn** models have to be loaded upon every **POST** request to the **Node** server. This results in long loading times. It would be best to use a Python-based back-end in this scenario or a separate **Flask** server connected to the **Node** server that has the model preloaded. I only implemented it in the way I did because I wanted to learn basic **Node** and **Express**.
+
+##### Reliable Article Output
 ![extension](img/checc_success.jpg)
 
-#### Unreliable Article Output
+##### Unreliable Article Output
 ![extension](img/checc_fail.jpg)
 
-#### Unsupported Article Output
+##### Unsupported Article Output
 
 If the user clicks *Submit* when on a webpage that is not an article or on a webpage on which the **newspaper** library cannot extract text from the URL, the following error message is displayed:
 
 ![extension](img/checc_error.jpg)
 
-#### Model Feedback
+##### Model Feedback
 
 ![extension](img/checc_feedback.jpg)
 
-To account for incorrect article reliability predictions, I included a report feature. As you can see above, after the user receives the probability, they can report if the article was actually reliable or not. When the user clicks *Yes* or *No*, a **POST Request** is sends the feedback value to the **Flask Server**. The server stores the URL, title, and content of the article in a **JSON** file. *Correct* and *Incorrect* data values are stored separately. This data could be uses in the future to further improve the models. 
+To account for incorrect article reliability predictions, I included a report feature. As you can see above, after the user receives the probability, they can report if the article was actually reliable or not. When the user clicks *Yes* or *No*, a **PUT Request** sends the feedback value to the **Flask**/**Node** server. The server stores the URL, title, and content of the article in a **JSON** file. *Correct* and *Incorrect* data values are stored separately. This data could be uses in the future to further improve the models. 
 
 ![extension](img/feedback.jpg)
